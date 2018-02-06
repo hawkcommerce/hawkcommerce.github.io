@@ -1,0 +1,604 @@
+{
+	"swagger": "2.0",
+	"info": {},
+	"host": "local.nimblecommerce.com:8001",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "products-controller",
+			"description": "Products Controller"
+		}
+	],
+	"paths": {
+		"/api/v1/products": {
+			"get": {
+				"tags": [
+					"products-controller"
+				],
+				"summary": "findAll",
+				"operationId": "findAllUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "publisherId",
+						"in": "query",
+						"description": "publisherId",
+						"required": true,
+						"type": "integer",
+						"format": "int32"
+					},
+					{
+						"name": "types",
+						"in": "query",
+						"description": "types",
+						"required": false,
+						"type": "string",
+						"default": "all"
+					},
+					{
+						"name": "statuses",
+						"in": "query",
+						"description": "statuses",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "categories",
+						"in": "query",
+						"description": "categories",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "cities",
+						"in": "query",
+						"description": "cities",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "hideMerchantTagIds",
+						"in": "query",
+						"description": "hideMerchantTagIds",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "productCategoriesIds",
+						"in": "query",
+						"description": "productCategoriesIds",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "tags",
+						"in": "query",
+						"description": "tags",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"description": "sort",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "productName",
+						"in": "query",
+						"description": "productName",
+						"required": false,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/Page«ProductResource»"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/api/v1/products/{id}": {
+			"get": {
+				"tags": [
+					"products-controller"
+				],
+				"summary": "findOne",
+				"operationId": "findOneUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/ProductDetailsResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "product not found"
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Brand": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"Category": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"name": {
+					"type": "string"
+				},
+				"primary": {
+					"type": "boolean"
+				}
+			}
+		},
+		"Denomination": {
+			"type": "object",
+			"properties": {
+				"fixedValue": {
+					"type": "number"
+				},
+				"id": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"maxValue": {
+					"type": "number"
+				},
+				"minValue": {
+					"type": "number"
+				},
+				"skins": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Skin"
+					}
+				}
+			}
+		},
+		"Image": {
+			"type": "object",
+			"properties": {
+				"defaultImage": {
+					"type": "boolean"
+				},
+				"id": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"mobileSrc": {
+					"type": "string"
+				},
+				"smallSrc": {
+					"type": "string"
+				},
+				"src": {
+					"type": "string"
+				},
+				"title": {
+					"type": "string"
+				}
+			}
+		},
+		"Link": {
+			"type": "object",
+			"properties": {
+				"href": {
+					"type": "string"
+				},
+				"rel": {
+					"type": "string"
+				},
+				"templated": {
+					"type": "boolean"
+				}
+			}
+		},
+		"Location": {
+			"type": "object",
+			"properties": {
+				"address": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"country": {
+					"type": "string"
+				},
+				"latitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"longitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"name": {
+					"type": "string"
+				},
+				"phone": {
+					"type": "string"
+				},
+				"state": {
+					"type": "string"
+				},
+				"zip": {
+					"type": "string"
+				}
+			}
+		},
+		"Offer": {
+			"type": "object",
+			"properties": {
+				"brand": {
+					"$ref": "#/definitions/Brand"
+				},
+				"offerId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"priceOptions": {
+					"$ref": "#/definitions/PriceOptions"
+				},
+				"primary": {
+					"type": "boolean"
+				}
+			}
+		},
+		"OfferDetails": {
+			"type": "object",
+			"properties": {
+				"brand": {
+					"$ref": "#/definitions/Brand"
+				},
+				"denominations": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Denomination"
+					}
+				},
+				"offerId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"primary": {
+					"type": "boolean"
+				}
+			}
+		},
+		"Page«ProductResource»": {
+			"type": "object",
+			"properties": {
+				"content": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ProductResource"
+					}
+				},
+				"first": {
+					"type": "boolean"
+				},
+				"last": {
+					"type": "boolean"
+				},
+				"number": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"numberOfElements": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"size": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"sort": {
+					"$ref": "#/definitions/Sort"
+				},
+				"totalElements": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"totalPages": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"PriceOptions": {
+			"type": "object",
+			"properties": {
+				"maxAmount": {
+					"type": "number"
+				},
+				"minAmount": {
+					"type": "number"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"FIXED",
+						"RANGE"
+					]
+				}
+			}
+		},
+		"ProductDetailsResource": {
+			"type": "object",
+			"properties": {
+				"categories": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Category"
+					}
+				},
+				"description": {
+					"type": "string"
+				},
+				"images": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Image"
+					}
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"locations": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Location"
+					}
+				},
+				"offers": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/OfferDetails"
+					}
+				},
+				"productId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"readableName": {
+					"type": "string"
+				},
+				"redemptionInstructions": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string",
+					"enum": [
+						"DRAFT",
+						"LIVE",
+						"PENDING",
+						"CLOSED"
+					]
+				},
+				"timeLines": {
+					"$ref": "#/definitions/TimeLines"
+				},
+				"title": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"PRODUCT",
+						"ONLINE_COUPON",
+						"OFFLINE_COUPON",
+						"CONTEST",
+						"MULTI_MERCHANT",
+						"STORE_OFFER",
+						"MEMBERSHIP_PRODUCT",
+						"AFFILIATE_OFFER",
+						"TRAVEL_DEAL",
+						"MEMBERSHIP_COUPON",
+						"AFFILIATE_STORE_COUPON",
+						"FRANCHISE_DEAL",
+						"PROMO_CODE_OFFER",
+						"DEAL_CARD",
+						"MULTI_OFFER_MERCHANT",
+						"GIFT_CARD_OFFER",
+						"BUNDLED_OFFER",
+						"PHYSICAL_GIFT_CARD_OFFER",
+						"PGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"EGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"PGIFT_BOUNUS_CARD_PROMOTION",
+						"EGIFT_BOUNUS_CARD_PROMOTION",
+						"PGIFT_BOUNUS_COUPON",
+						"EGIFT_BOUNUS_COUPON",
+						"PGIFT_REDEMPTION",
+						"EGIFT_REDEMPTION",
+						"CUSTOM_PGIFT",
+						"EVENT_TICKETS"
+					]
+				}
+			}
+		},
+		"ProductResource": {
+			"type": "object",
+			"properties": {
+				"categories": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Category"
+					}
+				},
+				"description": {
+					"type": "string"
+				},
+				"images": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Image"
+					}
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"locations": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"offers": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Offer"
+					}
+				},
+				"productId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"readableName": {
+					"type": "string"
+				},
+				"redemptionInstructions": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string",
+					"enum": [
+						"DRAFT",
+						"LIVE",
+						"PENDING",
+						"CLOSED"
+					]
+				},
+				"timeLines": {
+					"$ref": "#/definitions/TimeLines"
+				},
+				"title": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"PRODUCT",
+						"ONLINE_COUPON",
+						"OFFLINE_COUPON",
+						"CONTEST",
+						"MULTI_MERCHANT",
+						"STORE_OFFER",
+						"MEMBERSHIP_PRODUCT",
+						"AFFILIATE_OFFER",
+						"TRAVEL_DEAL",
+						"MEMBERSHIP_COUPON",
+						"AFFILIATE_STORE_COUPON",
+						"FRANCHISE_DEAL",
+						"PROMO_CODE_OFFER",
+						"DEAL_CARD",
+						"MULTI_OFFER_MERCHANT",
+						"GIFT_CARD_OFFER",
+						"BUNDLED_OFFER",
+						"PHYSICAL_GIFT_CARD_OFFER",
+						"PGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"EGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"PGIFT_BOUNUS_CARD_PROMOTION",
+						"EGIFT_BOUNUS_CARD_PROMOTION",
+						"PGIFT_BOUNUS_COUPON",
+						"EGIFT_BOUNUS_COUPON",
+						"PGIFT_REDEMPTION",
+						"EGIFT_REDEMPTION",
+						"CUSTOM_PGIFT",
+						"EVENT_TICKETS"
+					]
+				}
+			}
+		},
+		"Skin": {
+			"type": "object",
+			"properties": {
+				"imageUrl": {
+					"type": "string"
+				},
+				"skinId": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"Sort": {
+			"type": "object"
+		},
+		"TimeLines": {
+			"type": "object",
+			"properties": {
+				"endDate": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"startDate": {
+					"type": "string",
+					"format": "date-time"
+				}
+			}
+		}
+	}
+}
