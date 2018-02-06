@@ -1,1 +1,2463 @@
-{"swagger":"2.0","info":{"description":"Api Documentation","version":"1.0","title":"Api Documentation","termsOfService":"urn:tos","contact":{},"license":{"name":"Apache 2.0","url":"http://www.apache.org/licenses/LICENSE-2.0"}},"host":"admin.devqahawkcommerce.com","basePath":"/api","tags":[{"name":"state-internal-controller","description":"State Internal Controller"},{"name":"purchase-greeting-cards-controller","description":"Purchase Greeting Cards Controller"},{"name":"line-items-controller","description":"Line Items Controller"},{"name":"auth-controller","description":"Auth Controller"},{"name":"purchase-api-page-controller","description":"Purchase API Page Controller"},{"name":"promo-codes-controller","description":"Promo Codes Controller"},{"name":"purchase-greeting-card-user-text-controller","description":"Purchase Greeting Card User Text Controller"},{"name":"shopping-carts-controller","description":"Shopping Carts Controller"}],"paths":{"/payment":{"get":{"tags":["purchase-api-page-controller"],"summary":"paymentPage","operationId":"paymentPageUsingGET","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"activeWhiteLabelMerchantId","in":"query","description":"activeWhiteLabelMerchantId","required":false,"type":"integer","format":"int32"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ModelAndView"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/authorize":{"post":{"tags":["auth-controller"],"summary":"getOrCreateUserToken","operationId":"getOrCreateUserTokenUsingPOST","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"in":"body","name":"userTokenRequest","description":"userTokenRequest","required":true,"schema":{"$ref":"#/definitions/GetUserTokenRequest"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/AuthTokenResponse"}},"201":{"description":"Created"},"400":{"description":"invalid request"},"401":{"description":"user password doesn't match"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"user with email not found"}}}},"/v1/internal/purchase/StateManager/getStateAbbrByName":{"get":{"tags":["state-internal-controller"],"summary":"getStateAbbrByName","operationId":"getStateAbbrByNameUsingGET_1","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"in":"body","name":"stateName","description":"stateName","required":false,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","schema":{"type":"string"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/shopping-carts":{"post":{"tags":["shopping-carts-controller"],"summary":"create","operationId":"createUsingPOST_3","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"in":"body","name":"createDto","description":"createDto","required":true,"schema":{"$ref":"#/definitions/ShoppingCartDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ShoppingCartResource"}},"201":{"description":"shopping cart created"},"400":{"description":"invalid request"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/shopping-carts/{shoppingCartKey}":{"get":{"tags":["shopping-carts-controller"],"summary":"findOne","operationId":"findOneUsingGET_4","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/ShoppingCartResource"}},"401":{"description":"unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"shopping cart not found"}}},"delete":{"tags":["shopping-carts-controller"],"summary":"delete","operationId":"deleteUsingDELETE_5","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"}],"responses":{"200":{"description":"shopping cart deleted","schema":{"$ref":"#/definitions/ResponseEntity"}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"204":{"description":"No Content"},"403":{"description":"Forbidden"},"404":{"description":"shopping cart not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/checkout":{"post":{"tags":["shopping-carts-controller"],"summary":"makePurchase","operationId":"makePurchaseUsingPOST","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"in":"body","name":"dto","description":"dto","required":true,"schema":{"$ref":"#/definitions/CheckoutDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/Response"}},"201":{"description":"purchase is made"},"400":{"description":"invalid request"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/shopping-carts/{shoppingCartKey}/line-items":{"get":{"tags":["line-items-controller"],"summary":"findItems","operationId":"findItemsUsingGET","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"type":"array","items":{"$ref":"#/definitions/LineItemResource"}}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}},"post":{"tags":["line-items-controller"],"summary":"addItem","operationId":"addItemUsingPOST","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"in":"body","name":"item","description":"item","required":true,"schema":{"$ref":"#/definitions/LineItemDto"}}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/LineItemResource"}}},"201":{"description":"item added to shopping cart"},"400":{"description":"invalid request"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"shopping cart not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}":{"get":{"tags":["line-items-controller"],"summary":"findOne","operationId":"findOneUsingGET_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/LineItemResource"}},"401":{"description":"unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"items not found"}}},"put":{"tags":["line-items-controller"],"summary":"updateItem","operationId":"updateItemUsingPUT_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"in":"body","name":"item","description":"item","required":true,"schema":{"$ref":"#/definitions/LineItemDto"}}],"responses":{"200":{"description":"item updated","schema":{"$ref":"#/definitions/LineItemResource"}},"201":{"description":"Created"},"400":{"description":"validation fail"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"line item not found"}}},"delete":{"tags":["line-items-controller"],"summary":"delete","operationId":"deleteUsingDELETE","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"}],"responses":{"200":{"description":"line item deleted","schema":{"$ref":"#/definitions/ResponseEntity"}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"204":{"description":"No Content"},"403":{"description":"Forbidden"},"404":{"description":"line item not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards":{"get":{"tags":["purchase-greeting-cards-controller"],"summary":"getGreetingCards","operationId":"getGreetingCardsUsingGET","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/GreetingCardResource"}}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}},"post":{"tags":["purchase-greeting-cards-controller"],"summary":"addGreetingCard","operationId":"addGreetingCardUsingPOST_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"in":"body","name":"request","description":"request","required":true,"schema":{"$ref":"#/definitions/AddGreetingCardRequest"}}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/GreetingCardResource"}}},"201":{"description":"Created"},"400":{"description":"Invalid request"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards/{greetingCardKey}":{"get":{"tags":["purchase-greeting-cards-controller"],"summary":"getGreetingCard","operationId":"getGreetingCardUsingGET_3","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"name":"greetingCardKey","in":"path","description":"greetingCardKey","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/GreetingCardResource"}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}},"delete":{"tags":["purchase-greeting-cards-controller"],"summary":"deleteGreetingCard","operationId":"deleteGreetingCardUsingDELETE","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"name":"greetingCardKey","in":"path","description":"greetingCardKey","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"string","enum":["100","101","102","103","200","201","202","203","204","205","206","207","208","226","300","301","302","302","303","304","305","307","308","400","401","402","403","404","405","406","407","408","409","410","411","412","413","413","414","414","415","416","417","418","419","420","421","422","423","424","426","428","429","431","451","500","501","502","503","504","505","506","507","508","509","510","511"]}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"204":{"description":"No Content"},"403":{"description":"Forbidden"},"404":{"description":"Greeting card not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards/{greetingCardKey}/user-text":{"get":{"tags":["purchase-greeting-card-user-text-controller"],"summary":"getUserText","operationId":"getUserTextUsingGET","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"name":"greetingCardKey","in":"path","description":"greetingCardKey","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/GreetingCardUserTextResource"}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Greeting card not found"}}},"post":{"tags":["purchase-greeting-card-user-text-controller"],"summary":"addUserText","operationId":"addUserTextUsingPOST_1","consumes":["multipart/form-data"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"name":"greetingCardKey","in":"path","description":"greetingCardKey","required":true,"type":"string"},{"name":"messageRequest","in":"formData","description":"messageRequest","required":true,"type":"ref"},{"name":"imageBytes","in":"formData","description":"imageBytes","required":true,"type":"file"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/GreetingCardUserTextResource"}},"201":{"description":"Created"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Greeting card not found"}}},"delete":{"tags":["purchase-greeting-card-user-text-controller"],"summary":"deleteUserText","operationId":"deleteUserTextUsingDELETE_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"lineItemKey","in":"path","description":"lineItemKey","required":true,"type":"string"},{"name":"greetingCardKey","in":"path","description":"greetingCardKey","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"string","enum":["100","101","102","103","200","201","202","203","204","205","206","207","208","226","300","301","302","302","303","304","305","307","308","400","401","402","403","404","405","406","407","408","409","410","411","412","413","413","414","414","415","416","417","418","419","420","421","422","423","424","426","428","429","431","451","500","501","502","503","504","505","506","507","508","509","510","511"]}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"204":{"description":"No Content"},"403":{"description":"Forbidden"},"404":{"description":"Greeting card not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/promo-codes":{"get":{"tags":["promo-codes-controller"],"summary":"findOneByShopCartKey","operationId":"findOneByShopCartKeyUsingGET","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/PromoCodeResource"}},"401":{"description":"unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"promo code for shopping cart not found"}}},"post":{"tags":["promo-codes-controller"],"summary":"create","operationId":"createUsingPOST_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"in":"body","name":"dto","description":"dto","required":true,"schema":{"$ref":"#/definitions/PromoCodeDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/PromoCodeResource"}},"201":{"description":"promo code added"},"400":{"description":"invalid request"},"401":{"description":"unauthorized"},"500":{"description":"server error"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}}}},"/v1/shopping-carts/{shoppingCartKey}/promo-codes/{promoCodeKey}":{"get":{"tags":["promo-codes-controller"],"summary":"findOne","operationId":"findOneUsingGET_3","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"promoCodeKey","in":"path","description":"promoCodeKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/PromoCodeResource"}},"401":{"description":"unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"promo code not found"}}},"delete":{"tags":["promo-codes-controller"],"summary":"delete","operationId":"deleteUsingDELETE_3","consumes":["application/json"],"produces":["*/*"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"},{"name":"promoCodeKey","in":"path","description":"promoCodeKey","required":true,"type":"string"}],"responses":{"200":{"description":"promo code deleted","schema":{"$ref":"#/definitions/ResponseEntity"}},"401":{"description":"unauthorized"},"500":{"description":"server error"},"204":{"description":"No Content"},"403":{"description":"Forbidden"},"404":{"description":"promo code not found"}}}},"/v1/shopping-carts/{shoppingCartKey}/summary":{"get":{"tags":["shopping-carts-controller"],"summary":"summary","operationId":"summaryUsingGET_1","consumes":["application/json"],"produces":["application/json"],"parameters":[{"name":"CustomerToken","in":"header","description":"authorization token","required":false,"type":"string"},{"name":"PublisherToken","in":"header","description":"Access token","required":true,"type":"string"},{"name":"shoppingCartKey","in":"path","description":"shoppingCartKey","required":true,"type":"string"}],"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/SummaryResource"}},"401":{"description":"unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"shopping cart not found"}}}}},"definitions":{"ShoppingCartDto":{"type":"object","properties":{"items":{"type":"array","items":{"$ref":"#/definitions/LineItemDto"}}}},"DeliveryDto":{"type":"object","properties":{"deliveryDate":{"type":"string"},"message":{"type":"string"},"recipients":{"type":"array","items":{"$ref":"#/definitions/RecipientDto"}},"senderName":{"type":"string"},"shippingMethodId":{"type":"integer","format":"int32"}}},"PaymentMethodDto":{"type":"object","properties":{"address":{"$ref":"#/definitions/AddressDto"},"creditCard":{"$ref":"#/definitions/CreditCardDto"},"paymentAccountId":{"type":"integer","format":"int32"}}},"LineItemResource":{"type":"object","properties":{"deliveryInfo":{"$ref":"#/definitions/DeliveryDto"},"denomination":{"type":"number","format":"double"},"lineItemKey":{"type":"string"},"links":{"type":"array","items":{"$ref":"#/definitions/Link"}},"offerId":{"type":"integer","format":"int32"},"quantity":{"type":"integer","format":"int32"},"shoppingCartKey":{"type":"string"},"skinId":{"type":"integer","format":"int32"},"type":{"type":"string","enum":["PRODUCT","ONLINE_COUPON","OFFLINE_COUPON","CONTEST","MULTI_MERCHANT","STORE_OFFER","MEMBERSHIP_PRODUCT","AFFILIATE_OFFER","TRAVEL_DEAL","MEMBERSHIP_COUPON","AFFILIATE_STORE_COUPON","FRANCHISE_DEAL","PROMO_CODE_OFFER","DEAL_CARD","MULTI_OFFER_MERCHANT","GIFT_CARD_OFFER","BUNDLED_OFFER","PHYSICAL_GIFT_CARD_OFFER","PGIFT_DISCOUNT_OR_VALUE_PROMOTION","EGIFT_DISCOUNT_OR_VALUE_PROMOTION","PGIFT_BOUNUS_CARD_PROMOTION","EGIFT_BOUNUS_CARD_PROMOTION","PGIFT_BOUNUS_COUPON","EGIFT_BOUNUS_COUPON","PGIFT_REDEMPTION","EGIFT_REDEMPTION","CUSTOM_PGIFT","EVENT_TICKETS"]}}},"LineItemDto":{"type":"object","properties":{"deliveryInfo":{"$ref":"#/definitions/DeliveryDto"},"denomination":{"type":"number","format":"double"},"offerId":{"type":"integer","format":"int32"},"quantity":{"type":"integer","format":"int32"},"skinId":{"type":"integer","format":"int32"}}},"ModelAndView":{"type":"object","properties":{"empty":{"type":"boolean"},"model":{"type":"object"},"modelMap":{"type":"object","additionalProperties":{"type":"object"}},"reference":{"type":"boolean"},"status":{"type":"string","enum":["100","101","102","103","200","201","202","203","204","205","206","207","208","226","300","301","302","302","303","304","305","307","308","400","401","402","403","404","405","406","407","408","409","410","411","412","413","413","414","414","415","416","417","418","419","420","421","422","423","424","426","428","429","431","451","500","501","502","503","504","505","506","507","508","509","510","511"]},"view":{"$ref":"#/definitions/View"},"viewName":{"type":"string"}}},"CheckoutDto":{"type":"object","properties":{"customerEmail":{"type":"string"},"paymentMethod":{"$ref":"#/definitions/PaymentMethodDto"},"redirectPGType":{"type":"string","enum":["PAY_PAL_EXPRESS_CHECKOUT"]},"useService":{"type":"boolean"}}},"RecipientDto":{"type":"object","properties":{"address":{"type":"string"},"address2":{"type":"string"},"city":{"type":"string"},"countryCode":{"type":"string"},"email":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"phone":{"type":"string"},"state":{"type":"string"},"titleName":{"type":"string"},"zip":{"type":"string"}}},"ShoppingCartResource":{"type":"object","properties":{"links":{"type":"array","items":{"$ref":"#/definitions/Link"}},"shoppingCartKey":{"type":"string"},"status":{"type":"string","enum":["PENDING","PROCESSING","FAIL","SUCCESS"]}}},"AuthTokenResponse":{"type":"object","properties":{"expirationDate":{"type":"string","format":"date-time"},"token":{"type":"string"}}},"GreetingCardUserTextResource":{"type":"object","properties":{"color":{"type":"string"},"font":{"type":"string"},"insideRightImageThumbnailUrl":{"type":"string"},"insideRightImageUrl":{"type":"string"},"links":{"type":"array","items":{"$ref":"#/definitions/Link"}},"message":{"type":"string"},"size":{"type":"string"}}},"PromoCodeDto":{"type":"object","properties":{"code":{"type":"string"}}},"AddGreetingCardUserTextRequest":{"type":"object","properties":{"color":{"type":"string"},"font":{"type":"string"},"message":{"type":"string"},"size":{"type":"string"}}},"GetUserTokenRequest":{"type":"object","properties":{"email":{"type":"string"},"password":{"type":"string"}}},"SummaryResource":{"type":"object","properties":{"ccFee":{"type":"number","format":"double"},"discount":{"type":"number","format":"double"},"links":{"type":"array","items":{"$ref":"#/definitions/Link"}},"merchandiseTotal":{"type":"number","format":"double"},"promoCode":{"type":"number","format":"double"},"purchaseFee":{"type":"number","format":"double"},"shipping":{"type":"number","format":"double"},"subTotal":{"type":"number","format":"double"},"tax":{"type":"number","format":"double"},"total":{"type":"number","format":"double"}}},"AddGreetingCardRequest":{"type":"object","properties":{"greetingCardId":{"type":"integer","format":"int32"}}},"PromoCodeResource":{"type":"object","properties":{"code":{"type":"string"},"links":{"type":"array","items":{"$ref":"#/definitions/Link"}},"promoCodeKey":{"type":"string"},"shoppingCartKey":{"type":"string"}}},"InputStream":{"type":"object"},"AddressDto":{"type":"object","properties":{"address":{"type":"string"},"address2":{"type":"string"},"city":{"type":"string"},"countryCode":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"phone":{"type":"string"},"state":{"type":"string"},"zip":{"type":"string"}}},"View":{"type":"object","properties":{"contentType":{"type":"string"}}},"Response":{"type":"object","properties":{"orderId":{"type":"integer","format":"int32"},"redirectUrl":{"type":"string"}}},"CreditCardDto":{"type":"object","properties":{"cvv":{"type":"string"},"expirationMonth":{"type":"string"},"expirationYear":{"type":"string"},"nameOnCard":{"type":"string"},"number":{"type":"string"}}},"ResponseEntity":{"type":"object","properties":{"body":{"type":"object"},"statusCode":{"type":"string","enum":["100","101","102","103","200","201","202","203","204","205","206","207","208","226","300","301","302","302","303","304","305","307","308","400","401","402","403","404","405","406","407","408","409","410","411","412","413","413","414","414","415","416","417","418","419","420","421","422","423","424","426","428","429","431","451","500","501","502","503","504","505","506","507","508","509","510","511"]},"statusCodeValue":{"type":"integer","format":"int32"}}},"GreetingCardResource":{"type":"object","properties":{"greetingCardId":{"type":"integer","format":"int32"},"greetingCardKey":{"type":"string"},"links":{"type":"array","items":{"$ref":"#/definitions/Link"}}}},"Link":{"type":"object","properties":{"href":{"type":"string"},"rel":{"type":"string"}}}}}
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Api Documentation",
+		"version": "1.0",
+		"title": "Api Documentation",
+		"termsOfService": "urn:tos",
+		"contact": {},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		}
+	},
+	"host": "admin.devqahawkcommerce.com",
+	"basePath": "/api",
+	"tags": [
+		{
+			"name": "state-internal-controller",
+			"description": "State Internal Controller"
+		},
+		{
+			"name": "purchase-greeting-cards-controller",
+			"description": "Purchase Greeting Cards Controller"
+		},
+		{
+			"name": "line-items-controller",
+			"description": "Line Items Controller"
+		},
+		{
+			"name": "auth-controller",
+			"description": "Auth Controller"
+		},
+		{
+			"name": "purchase-api-page-controller",
+			"description": "Purchase API Page Controller"
+		},
+		{
+			"name": "promo-codes-controller",
+			"description": "Promo Codes Controller"
+		},
+		{
+			"name": "purchase-greeting-card-user-text-controller",
+			"description": "Purchase Greeting Card User Text Controller"
+		},
+		{
+			"name": "shopping-carts-controller",
+			"description": "Shopping Carts Controller"
+		}
+	],
+	"paths": {
+		"/payment": {
+			"get": {
+				"tags": [
+					"purchase-api-page-controller"
+				],
+				"summary": "paymentPage",
+				"operationId": "paymentPageUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "activeWhiteLabelMerchantId",
+						"in": "query",
+						"description": "activeWhiteLabelMerchantId",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/ModelAndView"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/authorize": {
+			"post": {
+				"tags": [
+					"auth-controller"
+				],
+				"summary": "getOrCreateUserToken",
+				"operationId": "getOrCreateUserTokenUsingPOST",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "userTokenRequest",
+						"description": "userTokenRequest",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/GetUserTokenRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/AuthTokenResponse"
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"400": {
+						"description": "invalid request"
+					},
+					"401": {
+						"description": "user password doesn't match"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "user with email not found"
+					}
+				}
+			}
+		},
+		"/v1/internal/purchase/StateManager/getStateAbbrByName": {
+			"get": {
+				"tags": [
+					"state-internal-controller"
+				],
+				"summary": "getStateAbbrByName",
+				"operationId": "getStateAbbrByNameUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "stateName",
+						"description": "stateName",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts": {
+			"post": {
+				"tags": [
+					"shopping-carts-controller"
+				],
+				"summary": "create",
+				"operationId": "createUsingPOST_3",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "createDto",
+						"description": "createDto",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ShoppingCartDto"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/ShoppingCartResource"
+						}
+					},
+					"201": {
+						"description": "shopping cart created"
+					},
+					"400": {
+						"description": "invalid request"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}": {
+			"get": {
+				"tags": [
+					"shopping-carts-controller"
+				],
+				"summary": "findOne",
+				"operationId": "findOneUsingGET_4",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/ShoppingCartResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "shopping cart not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"shopping-carts-controller"
+				],
+				"summary": "delete",
+				"operationId": "deleteUsingDELETE_5",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "shopping cart deleted",
+						"schema": {
+							"$ref": "#/definitions/ResponseEntity"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "shopping cart not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/checkout": {
+			"post": {
+				"tags": [
+					"shopping-carts-controller"
+				],
+				"summary": "makePurchase",
+				"operationId": "makePurchaseUsingPOST",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "dto",
+						"description": "dto",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/CheckoutDto"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"201": {
+						"description": "purchase is made"
+					},
+					"400": {
+						"description": "invalid request"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/line-items": {
+			"get": {
+				"tags": [
+					"line-items-controller"
+				],
+				"summary": "findItems",
+				"operationId": "findItemsUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/LineItemResource"
+							}
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"line-items-controller"
+				],
+				"summary": "addItem",
+				"operationId": "addItemUsingPOST",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "item",
+						"description": "item",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/LineItemDto"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/LineItemResource"
+							}
+						}
+					},
+					"201": {
+						"description": "item added to shopping cart"
+					},
+					"400": {
+						"description": "invalid request"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "shopping cart not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}": {
+			"get": {
+				"tags": [
+					"line-items-controller"
+				],
+				"summary": "findOne",
+				"operationId": "findOneUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/LineItemResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "items not found"
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"line-items-controller"
+				],
+				"summary": "updateItem",
+				"operationId": "updateItemUsingPUT_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "item",
+						"description": "item",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/LineItemDto"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "item updated",
+						"schema": {
+							"$ref": "#/definitions/LineItemResource"
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"400": {
+						"description": "validation fail"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "line item not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"line-items-controller"
+				],
+				"summary": "delete",
+				"operationId": "deleteUsingDELETE",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "line item deleted",
+						"schema": {
+							"$ref": "#/definitions/ResponseEntity"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "line item not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards": {
+			"get": {
+				"tags": [
+					"purchase-greeting-cards-controller"
+				],
+				"summary": "getGreetingCards",
+				"operationId": "getGreetingCardsUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/GreetingCardResource"
+							}
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"purchase-greeting-cards-controller"
+				],
+				"summary": "addGreetingCard",
+				"operationId": "addGreetingCardUsingPOST_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "request",
+						"description": "request",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/AddGreetingCardRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/GreetingCardResource"
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"400": {
+						"description": "Invalid request"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards/{greetingCardKey}": {
+			"get": {
+				"tags": [
+					"purchase-greeting-cards-controller"
+				],
+				"summary": "getGreetingCard",
+				"operationId": "getGreetingCardUsingGET_3",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "greetingCardKey",
+						"in": "path",
+						"description": "greetingCardKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"purchase-greeting-cards-controller"
+				],
+				"summary": "deleteGreetingCard",
+				"operationId": "deleteGreetingCardUsingDELETE",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "greetingCardKey",
+						"in": "path",
+						"description": "greetingCardKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"100",
+								"101",
+								"102",
+								"103",
+								"200",
+								"201",
+								"202",
+								"203",
+								"204",
+								"205",
+								"206",
+								"207",
+								"208",
+								"226",
+								"300",
+								"301",
+								"302",
+								"302",
+								"303",
+								"304",
+								"305",
+								"307",
+								"308",
+								"400",
+								"401",
+								"402",
+								"403",
+								"404",
+								"405",
+								"406",
+								"407",
+								"408",
+								"409",
+								"410",
+								"411",
+								"412",
+								"413",
+								"413",
+								"414",
+								"414",
+								"415",
+								"416",
+								"417",
+								"418",
+								"419",
+								"420",
+								"421",
+								"422",
+								"423",
+								"424",
+								"426",
+								"428",
+								"429",
+								"431",
+								"451",
+								"500",
+								"501",
+								"502",
+								"503",
+								"504",
+								"505",
+								"506",
+								"507",
+								"508",
+								"509",
+								"510",
+								"511"
+							]
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Greeting card not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/line-items/{lineItemKey}/greeting-cards/{greetingCardKey}/user-text": {
+			"get": {
+				"tags": [
+					"purchase-greeting-card-user-text-controller"
+				],
+				"summary": "getUserText",
+				"operationId": "getUserTextUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "greetingCardKey",
+						"in": "path",
+						"description": "greetingCardKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardUserTextResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Greeting card not found"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"purchase-greeting-card-user-text-controller"
+				],
+				"summary": "addUserText",
+				"operationId": "addUserTextUsingPOST_1",
+				"consumes": [
+					"multipart/form-data"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "greetingCardKey",
+						"in": "path",
+						"description": "greetingCardKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "messageRequest",
+						"in": "formData",
+						"description": "messageRequest",
+						"required": true,
+						"type": "ref"
+					},
+					{
+						"name": "imageBytes",
+						"in": "formData",
+						"description": "imageBytes",
+						"required": true,
+						"type": "file"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardUserTextResource"
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Greeting card not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"purchase-greeting-card-user-text-controller"
+				],
+				"summary": "deleteUserText",
+				"operationId": "deleteUserTextUsingDELETE_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "lineItemKey",
+						"in": "path",
+						"description": "lineItemKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "greetingCardKey",
+						"in": "path",
+						"description": "greetingCardKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"100",
+								"101",
+								"102",
+								"103",
+								"200",
+								"201",
+								"202",
+								"203",
+								"204",
+								"205",
+								"206",
+								"207",
+								"208",
+								"226",
+								"300",
+								"301",
+								"302",
+								"302",
+								"303",
+								"304",
+								"305",
+								"307",
+								"308",
+								"400",
+								"401",
+								"402",
+								"403",
+								"404",
+								"405",
+								"406",
+								"407",
+								"408",
+								"409",
+								"410",
+								"411",
+								"412",
+								"413",
+								"413",
+								"414",
+								"414",
+								"415",
+								"416",
+								"417",
+								"418",
+								"419",
+								"420",
+								"421",
+								"422",
+								"423",
+								"424",
+								"426",
+								"428",
+								"429",
+								"431",
+								"451",
+								"500",
+								"501",
+								"502",
+								"503",
+								"504",
+								"505",
+								"506",
+								"507",
+								"508",
+								"509",
+								"510",
+								"511"
+							]
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Greeting card not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/promo-codes": {
+			"get": {
+				"tags": [
+					"promo-codes-controller"
+				],
+				"summary": "findOneByShopCartKey",
+				"operationId": "findOneByShopCartKeyUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/PromoCodeResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "promo code for shopping cart not found"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"promo-codes-controller"
+				],
+				"summary": "create",
+				"operationId": "createUsingPOST_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "dto",
+						"description": "dto",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/PromoCodeDto"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/PromoCodeResource"
+						}
+					},
+					"201": {
+						"description": "promo code added"
+					},
+					"400": {
+						"description": "invalid request"
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/promo-codes/{promoCodeKey}": {
+			"get": {
+				"tags": [
+					"promo-codes-controller"
+				],
+				"summary": "findOne",
+				"operationId": "findOneUsingGET_3",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "promoCodeKey",
+						"in": "path",
+						"description": "promoCodeKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/PromoCodeResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "promo code not found"
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"promo-codes-controller"
+				],
+				"summary": "delete",
+				"operationId": "deleteUsingDELETE_3",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"*/*"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "promoCodeKey",
+						"in": "path",
+						"description": "promoCodeKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "promo code deleted",
+						"schema": {
+							"$ref": "#/definitions/ResponseEntity"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"500": {
+						"description": "server error"
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "promo code not found"
+					}
+				}
+			}
+		},
+		"/v1/shopping-carts/{shoppingCartKey}/summary": {
+			"get": {
+				"tags": [
+					"shopping-carts-controller"
+				],
+				"summary": "summary",
+				"operationId": "summaryUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "CustomerToken",
+						"in": "header",
+						"description": "authorization token",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "PublisherToken",
+						"in": "header",
+						"description": "Access token",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "shoppingCartKey",
+						"in": "path",
+						"description": "shoppingCartKey",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ok",
+						"schema": {
+							"$ref": "#/definitions/SummaryResource"
+						}
+					},
+					"401": {
+						"description": "unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "shopping cart not found"
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"ShoppingCartDto": {
+			"type": "object",
+			"properties": {
+				"items": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/LineItemDto"
+					}
+				}
+			}
+		},
+		"DeliveryDto": {
+			"type": "object",
+			"properties": {
+				"deliveryDate": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"recipients": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/RecipientDto"
+					}
+				},
+				"senderName": {
+					"type": "string"
+				},
+				"shippingMethodId": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"PaymentMethodDto": {
+			"type": "object",
+			"properties": {
+				"address": {
+					"$ref": "#/definitions/AddressDto"
+				},
+				"creditCard": {
+					"$ref": "#/definitions/CreditCardDto"
+				},
+				"paymentAccountId": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"LineItemResource": {
+			"type": "object",
+			"properties": {
+				"deliveryInfo": {
+					"$ref": "#/definitions/DeliveryDto"
+				},
+				"denomination": {
+					"type": "number",
+					"format": "double"
+				},
+				"lineItemKey": {
+					"type": "string"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"offerId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"quantity": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"shoppingCartKey": {
+					"type": "string"
+				},
+				"skinId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"PRODUCT",
+						"ONLINE_COUPON",
+						"OFFLINE_COUPON",
+						"CONTEST",
+						"MULTI_MERCHANT",
+						"STORE_OFFER",
+						"MEMBERSHIP_PRODUCT",
+						"AFFILIATE_OFFER",
+						"TRAVEL_DEAL",
+						"MEMBERSHIP_COUPON",
+						"AFFILIATE_STORE_COUPON",
+						"FRANCHISE_DEAL",
+						"PROMO_CODE_OFFER",
+						"DEAL_CARD",
+						"MULTI_OFFER_MERCHANT",
+						"GIFT_CARD_OFFER",
+						"BUNDLED_OFFER",
+						"PHYSICAL_GIFT_CARD_OFFER",
+						"PGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"EGIFT_DISCOUNT_OR_VALUE_PROMOTION",
+						"PGIFT_BOUNUS_CARD_PROMOTION",
+						"EGIFT_BOUNUS_CARD_PROMOTION",
+						"PGIFT_BOUNUS_COUPON",
+						"EGIFT_BOUNUS_COUPON",
+						"PGIFT_REDEMPTION",
+						"EGIFT_REDEMPTION",
+						"CUSTOM_PGIFT",
+						"EVENT_TICKETS"
+					]
+				}
+			}
+		},
+		"LineItemDto": {
+			"type": "object",
+			"properties": {
+				"deliveryInfo": {
+					"$ref": "#/definitions/DeliveryDto"
+				},
+				"denomination": {
+					"type": "number",
+					"format": "double"
+				},
+				"offerId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"quantity": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"skinId": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"ModelAndView": {
+			"type": "object",
+			"properties": {
+				"empty": {
+					"type": "boolean"
+				},
+				"model": {
+					"type": "object"
+				},
+				"modelMap": {
+					"type": "object",
+					"additionalProperties": {
+						"type": "object"
+					}
+				},
+				"reference": {
+					"type": "boolean"
+				},
+				"status": {
+					"type": "string",
+					"enum": [
+						"100",
+						"101",
+						"102",
+						"103",
+						"200",
+						"201",
+						"202",
+						"203",
+						"204",
+						"205",
+						"206",
+						"207",
+						"208",
+						"226",
+						"300",
+						"301",
+						"302",
+						"302",
+						"303",
+						"304",
+						"305",
+						"307",
+						"308",
+						"400",
+						"401",
+						"402",
+						"403",
+						"404",
+						"405",
+						"406",
+						"407",
+						"408",
+						"409",
+						"410",
+						"411",
+						"412",
+						"413",
+						"413",
+						"414",
+						"414",
+						"415",
+						"416",
+						"417",
+						"418",
+						"419",
+						"420",
+						"421",
+						"422",
+						"423",
+						"424",
+						"426",
+						"428",
+						"429",
+						"431",
+						"451",
+						"500",
+						"501",
+						"502",
+						"503",
+						"504",
+						"505",
+						"506",
+						"507",
+						"508",
+						"509",
+						"510",
+						"511"
+					]
+				},
+				"view": {
+					"$ref": "#/definitions/View"
+				},
+				"viewName": {
+					"type": "string"
+				}
+			}
+		},
+		"CheckoutDto": {
+			"type": "object",
+			"properties": {
+				"customerEmail": {
+					"type": "string"
+				},
+				"paymentMethod": {
+					"$ref": "#/definitions/PaymentMethodDto"
+				},
+				"redirectPGType": {
+					"type": "string",
+					"enum": [
+						"PAY_PAL_EXPRESS_CHECKOUT"
+					]
+				},
+				"useService": {
+					"type": "boolean"
+				}
+			}
+		},
+		"RecipientDto": {
+			"type": "object",
+			"properties": {
+				"address": {
+					"type": "string"
+				},
+				"address2": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"countryCode": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"phone": {
+					"type": "string"
+				},
+				"state": {
+					"type": "string"
+				},
+				"titleName": {
+					"type": "string"
+				},
+				"zip": {
+					"type": "string"
+				}
+			}
+		},
+		"ShoppingCartResource": {
+			"type": "object",
+			"properties": {
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"shoppingCartKey": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string",
+					"enum": [
+						"PENDING",
+						"PROCESSING",
+						"FAIL",
+						"SUCCESS"
+					]
+				}
+			}
+		},
+		"AuthTokenResponse": {
+			"type": "object",
+			"properties": {
+				"expirationDate": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"token": {
+					"type": "string"
+				}
+			}
+		},
+		"GreetingCardUserTextResource": {
+			"type": "object",
+			"properties": {
+				"color": {
+					"type": "string"
+				},
+				"font": {
+					"type": "string"
+				},
+				"insideRightImageThumbnailUrl": {
+					"type": "string"
+				},
+				"insideRightImageUrl": {
+					"type": "string"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"message": {
+					"type": "string"
+				},
+				"size": {
+					"type": "string"
+				}
+			}
+		},
+		"PromoCodeDto": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "string"
+				}
+			}
+		},
+		"AddGreetingCardUserTextRequest": {
+			"type": "object",
+			"properties": {
+				"color": {
+					"type": "string"
+				},
+				"font": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"size": {
+					"type": "string"
+				}
+			}
+		},
+		"GetUserTokenRequest": {
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"SummaryResource": {
+			"type": "object",
+			"properties": {
+				"ccFee": {
+					"type": "number",
+					"format": "double"
+				},
+				"discount": {
+					"type": "number",
+					"format": "double"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"merchandiseTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"promoCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"purchaseFee": {
+					"type": "number",
+					"format": "double"
+				},
+				"shipping": {
+					"type": "number",
+					"format": "double"
+				},
+				"subTotal": {
+					"type": "number",
+					"format": "double"
+				},
+				"tax": {
+					"type": "number",
+					"format": "double"
+				},
+				"total": {
+					"type": "number",
+					"format": "double"
+				}
+			}
+		},
+		"AddGreetingCardRequest": {
+			"type": "object",
+			"properties": {
+				"greetingCardId": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"PromoCodeResource": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "string"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"promoCodeKey": {
+					"type": "string"
+				},
+				"shoppingCartKey": {
+					"type": "string"
+				}
+			}
+		},
+		"InputStream": {
+			"type": "object"
+		},
+		"AddressDto": {
+			"type": "object",
+			"properties": {
+				"address": {
+					"type": "string"
+				},
+				"address2": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"countryCode": {
+					"type": "string"
+				},
+				"firstName": {
+					"type": "string"
+				},
+				"lastName": {
+					"type": "string"
+				},
+				"phone": {
+					"type": "string"
+				},
+				"state": {
+					"type": "string"
+				},
+				"zip": {
+					"type": "string"
+				}
+			}
+		},
+		"View": {
+			"type": "object",
+			"properties": {
+				"contentType": {
+					"type": "string"
+				}
+			}
+		},
+		"Response": {
+			"type": "object",
+			"properties": {
+				"orderId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"redirectUrl": {
+					"type": "string"
+				}
+			}
+		},
+		"CreditCardDto": {
+			"type": "object",
+			"properties": {
+				"cvv": {
+					"type": "string"
+				},
+				"expirationMonth": {
+					"type": "string"
+				},
+				"expirationYear": {
+					"type": "string"
+				},
+				"nameOnCard": {
+					"type": "string"
+				},
+				"number": {
+					"type": "string"
+				}
+			}
+		},
+		"ResponseEntity": {
+			"type": "object",
+			"properties": {
+				"body": {
+					"type": "object"
+				},
+				"statusCode": {
+					"type": "string",
+					"enum": [
+						"100",
+						"101",
+						"102",
+						"103",
+						"200",
+						"201",
+						"202",
+						"203",
+						"204",
+						"205",
+						"206",
+						"207",
+						"208",
+						"226",
+						"300",
+						"301",
+						"302",
+						"302",
+						"303",
+						"304",
+						"305",
+						"307",
+						"308",
+						"400",
+						"401",
+						"402",
+						"403",
+						"404",
+						"405",
+						"406",
+						"407",
+						"408",
+						"409",
+						"410",
+						"411",
+						"412",
+						"413",
+						"413",
+						"414",
+						"414",
+						"415",
+						"416",
+						"417",
+						"418",
+						"419",
+						"420",
+						"421",
+						"422",
+						"423",
+						"424",
+						"426",
+						"428",
+						"429",
+						"431",
+						"451",
+						"500",
+						"501",
+						"502",
+						"503",
+						"504",
+						"505",
+						"506",
+						"507",
+						"508",
+						"509",
+						"510",
+						"511"
+					]
+				},
+				"statusCodeValue": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"GreetingCardResource": {
+			"type": "object",
+			"properties": {
+				"greetingCardId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"greetingCardKey": {
+					"type": "string"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				}
+			}
+		},
+		"Link": {
+			"type": "object",
+			"properties": {
+				"href": {
+					"type": "string"
+				},
+				"rel": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

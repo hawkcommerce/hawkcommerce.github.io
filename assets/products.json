@@ -1,21 +1,23 @@
 {
 	"swagger": "2.0",
-	"info": {},
-	"host": "local.nimblecommerce.com:8001",
+	"info": {
+		"title": "Product Listing"
+	},
+	"host": "products.devqahawkcommerce.com",
 	"basePath": "/",
 	"tags": [
 		{
-			"name": "products-controller",
-			"description": "Products Controller"
+			"name": "Products",
+			"description": "Products Listing Operations"
 		}
 	],
 	"paths": {
 		"/api/v1/products": {
 			"get": {
 				"tags": [
-					"products-controller"
+					"Products"
 				],
-				"summary": "findAll",
+				"summary": "Query all Products",
 				"operationId": "findAllUsingGET_1",
 				"consumes": [
 					"application/json"
@@ -119,9 +121,9 @@
 		"/api/v1/products/{id}": {
 			"get": {
 				"tags": [
-					"products-controller"
+					"Products"
 				],
-				"summary": "findOne",
+				"summary": "Get one Product by Id",
 				"operationId": "findOneUsingGET_1",
 				"consumes": [
 					"application/json"
