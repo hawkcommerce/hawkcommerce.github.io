@@ -1,0 +1,35 @@
+<div class="section">
+	<p class="h4">Authentication</p>
+	<p>
+		Authentication is based on token based approach.
+	</p>
+	<p>
+		The user will have to authenticate with the retail using customer ID and password, which will then provide the client application with a unique and time-bound access token. The client app can use this unique token to make calls to the retail on the behalf of the user.
+	</p>
+	<p>
+		Generally, these access tokens are specific to a single account of a user and are valid over a longer duration (up to 30 days, for example).
+	</p>
+	<p>
+		The end user authenticates the account and provides access to the app to carry out the transaction via a two-step verification on the retail site. The following steps are done to provide authentication:
+	</p>
+	<ul>
+		<li>The user is shown a consent page from the retail where the user logs in with a customer ID and password</li>
+	</ul>
+</div>
+
+<div class="section">
+	<p class="h4">Using APIs in your app</p>
+	<p>
+		You will create the app and provide the required details to enable support for the Authorization flows.
+	</p>
+	<p>
+		In order for the app to make any API calls, it will have to present its client Access Token. This is to ensure that only authenticated apps can make API calls.
+	</p>
+	<p>
+		For accessing the Products API, the app will first make a call to the Authorization, so that the app can get an access token to access personalized product details.
+	</p>
+	<p>
+		The App can then use this access token to make the calls to the products APIs. When the API is called, the user information is retrieved from the access token and the products information returned are personalized for the user.
+	</p>
+</div>
+
