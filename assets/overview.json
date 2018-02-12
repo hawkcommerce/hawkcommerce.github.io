@@ -4,10 +4,6 @@
 		"content": "overview"
 	},
 	{
-		"title": "Access to the API",
-		"content": "access"
-	},
-	{
 		"title": "Authentication",
 		"content": "authentication"
 	},
