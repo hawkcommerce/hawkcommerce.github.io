@@ -125,7 +125,7 @@
 		"/api/v1/products/{id}": {
 			"get": {
 				"tags": [
-					"Products"
+					"Product"
 				],
 				"summary": "Get one Product by Id",
 				"operationId": "findOneUsingGET_1",
