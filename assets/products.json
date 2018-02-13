@@ -7,15 +7,19 @@
 	"basePath": "/",
 	"tags": [
 		{
-			"name": "Products",
+			"name": "Product",
 			"description": "Products Listing Operations"
+		},
+		{
+			"name": "Greeting Card",
+			"description": "Greeting Card Listing Operations"
 		}
 	],
 	"paths": {
 		"/api/v1/products": {
 			"get": {
 				"tags": [
-					"Products"
+					"Product"
 				],
 				"summary": "Query all Products",
 				"operationId": "findAllUsingGET_1",
@@ -159,6 +163,299 @@
 					}
 				}
 			}
+		},
+		"/v1/greeting-cards": {
+			"get": {
+				"tags": [
+					"Greeting Card"
+				],
+				"summary": "Get all Greeting Cards",
+				"description": "Returns page of Greeting Cards",
+				"operationId": "getCategoryPagesUsingGET_2",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Number of the page",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "Amount of the elements on the page",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardPageResource"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					}
+				},
+				"security": [
+					{
+						"AccessToken": [
+							"global"
+						]
+					},
+					{
+						"Authorization": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/v1/greeting-cards/categories": {
+			"get": {
+				"tags": [
+					"Greeting Card"
+				],
+				"summary": "Get all Greeting Card Categories",
+				"description": "Returns Greeting Card Categories",
+				"operationId": "getCategoriesUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "greetingCardsOnPage",
+						"in": "query",
+						"description": "greetingCardsOnPage",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/GreetingCardCategoryResource"
+							}
+						}
+					},
+					"401": {
+						"description": "Successful Response"
+					}
+				},
+				"security": [
+					{
+						"AccessToken": [
+							"global"
+						]
+					},
+					{
+						"Authorization": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/v1/greeting-cards/categories/{id}": {
+			"get": {
+				"tags": [
+					"Greeting Card"
+				],
+				"summary": "Get Greeting Card Category",
+				"description": "Returns Greeting Card Category details",
+				"operationId": "getCategoryUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Greeting Card Category unique ID",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardCategoryResource"
+						}
+					},
+					"401": {
+						"description": "Successful Response"
+					},
+					"404": {
+						"description": "Category Not Found"
+					}
+				},
+				"security": [
+					{
+						"AccessToken": [
+							"global"
+						]
+					},
+					{
+						"Authorization": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/v1/greeting-cards/categories/{id}/pages": {
+			"get": {
+				"tags": [
+					"Greeting Card"
+				],
+				"summary": "Get Greeting Cards by Category",
+				"description": "Returns Greeting Cards by Category",
+				"operationId": "getCategoryPagesUsingGET",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Greeting Card Category unique ID",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					},
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Number of the page",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "Amount of the elements on the page",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardCategoryResource"
+						}
+					},
+					"401": {
+						"description": "Successful Response"
+					},
+					"404": {
+						"description": "Category Not Found"
+					}
+				},
+				"security": [
+					{
+						"AccessToken": [
+							"global"
+						]
+					},
+					{
+						"Authorization": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/v1/greeting-cards/{id}": {
+			"get": {
+				"tags": [
+					"Greeting Card"
+				],
+				"summary": "Get Greeting Card",
+				"description": "Returns single Greeting Card details",
+				"operationId": "getGreetingCardUsingGET_1",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Greeting Card unique ID",
+						"required": false,
+						"type": "integer",
+						"format": "int32"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful Response",
+						"schema": {
+							"$ref": "#/definitions/GreetingCardResource"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"404": {
+						"description": "Greeting Card Not Found"
+					}
+				},
+				"security": [
+					{
+						"AccessToken": [
+							"global"
+						]
+					},
+					{
+						"Authorization": [
+							"global"
+						]
+					}
+				]
+			}
+		}
+	},
+	"securityDefinitions": {
+		"AccessToken": {
+			"type": "apiKey",
+			"name": "AccessToken",
+			"in": "header"
+		},
+		"Authorization": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header"
 		}
 	},
 	"definitions": {
@@ -599,6 +896,162 @@
 				"startDate": {
 					"type": "string",
 					"format": "date-time"
+				}
+			}
+		},
+		"GreetingCardPageResource": {
+			"type": "object",
+			"properties": {
+				"content": {
+					"type": "array",
+					"items": {
+						"type": "object"
+					}
+				},
+				"first": {
+					"type": "boolean"
+				},
+				"last": {
+					"type": "boolean"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"number": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"numberOfElements": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"size": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"sort": {
+					"$ref": "#/definitions/Sort"
+				},
+				"totalElements": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"totalPages": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"GreetingCardCategoryResource": {
+			"type": "object",
+			"properties": {
+				"categoryId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"greetingCardsPage": {
+					"$ref": "#/definitions/GreetingCardPageResource«GreetingCardResource»"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"name": {
+					"type": "string"
+				},
+				"totalGreetingCards": {
+					"type": "integer",
+					"format": "int32"
+				}
+			}
+		},
+		"GreetingCardResource": {
+			"type": "object",
+			"properties": {
+				"backImageThumbnailUrl": {
+					"type": "string"
+				},
+				"backImageUrl": {
+					"type": "string"
+				},
+				"designName": {
+					"type": "string"
+				},
+				"frontImageThumbNailUrl": {
+					"type": "string"
+				},
+				"frontImageUrl": {
+					"type": "string"
+				},
+				"greetingCardId": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"insideLeftImageThumbnailUrl": {
+					"type": "string"
+				},
+				"insideLeftImageUrl": {
+					"type": "string"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"sku": {
+					"type": "string"
+				}
+			}
+		},
+		"GreetingCardPageResource«GreetingCardResource»": {
+			"type": "object",
+			"properties": {
+				"content": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/GreetingCardResource"
+					}
+				},
+				"first": {
+					"type": "boolean"
+				},
+				"last": {
+					"type": "boolean"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Link"
+					}
+				},
+				"number": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"numberOfElements": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"size": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"sort": {
+					"$ref": "#/definitions/Sort"
+				},
+				"totalElements": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"totalPages": {
+					"type": "integer",
+					"format": "int32"
 				}
 			}
 		}
