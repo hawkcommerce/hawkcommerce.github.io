@@ -4,7 +4,7 @@
 		"title": "Product Listing"
 	},
 	"host": "products.devqahawkcommerce.com",
-	"basePath": "/",
+	"basePath": "/api",
 	"tags": [
 		{
 			"name": "Product",
@@ -16,7 +16,7 @@
 		}
 	],
 	"paths": {
-		"/api/v1/products": {
+		"/v1/products": {
 			"get": {
 				"tags": [
 					"Product"
@@ -105,13 +105,13 @@
 				],
 				"responses": {
 					"200": {
-						"description": "ok",
+						"description": "Successful Response",
 						"schema": {
 							"$ref": "#/definitions/Page«ProductResource»"
 						}
 					},
 					"401": {
-						"description": "unauthorized"
+						"description": "Unauthorized"
 					},
 					"403": {
 						"description": "Forbidden"
@@ -122,7 +122,7 @@
 				}
 			}
 		},
-		"/api/v1/products/{id}": {
+		"/v1/products/{uid}": {
 			"get": {
 				"tags": [
 					"Product"
@@ -137,29 +137,28 @@
 				],
 				"parameters": [
 					{
-						"name": "id",
+						"name": "uid",
 						"in": "path",
-						"description": "id",
+						"description": "Product readable name",
 						"required": true,
-						"type": "integer",
-						"format": "int32"
+						"type": "string"
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "ok",
+						"description": "Successful Response",
 						"schema": {
 							"$ref": "#/definitions/ProductDetailsResource"
 						}
 					},
 					"401": {
-						"description": "unauthorized"
+						"description": "Unauthorized"
 					},
 					"403": {
 						"description": "Forbidden"
 					},
 					"404": {
-						"description": "product not found"
+						"description": "Product Not Found"
 					}
 				}
 			}
